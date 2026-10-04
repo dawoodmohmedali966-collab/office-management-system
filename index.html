@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المكتب الإداري | الجبهة الوطنية شرق السودان</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Tahoma", sans-serif;
+      background: linear-gradient(135deg, #f4f7fb, #dfeaf6);
+      color: #1f2937;
+    }
+
+    .hidden { display: none !important; }
+
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a, #1d4ed8);
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      padding: 28px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .brand h1 {
+      margin: 10px 0 5px;
+      color: #0f172a;
+      font-size: 1.8rem;
+    }
+
+    .brand p {
+      margin: 0;
+      color: #475569;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #334155;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+    }
+
+    .login-btn, .primary-btn, .danger-btn {
+      cursor: pointer;
+      border: none;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      font-weight: bold;
+      transition: 0.2s ease;
+    }
+
+    .login-btn:hover, .primary-btn:hover {
+      opacity: 0.96;
+      transform: translateY(-1px);
+    }
+
+    .dashboard {
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f172a;
+      color: white;
+      padding: 18px 22px;
+      border-radius: 16px;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    }
+
+    .topbar h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+    }
+
+    .stat-card {
+      border-left: 6px solid #2563eb;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #0f172a;
+      margin-top: 8px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 22px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      margin-bottom: 22px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .section-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .mini-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .table-list {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .table-list th, .table-list td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: right;
+    }
+
+    .table-list th {
+      background: #f8fafc;
+      color: #334155;
+    }
+
+    .room-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .room-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .room-card h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .available { background: #dcfce7; color: #166534; }
+    .occupied { background: #fee2e2; color: #991b1b; }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .low { background: #dbeafe; color: #1d4ed8; }
+    .mid { background: #fef3c7; color: #92400e; }
+    .high { background: #fee2e2; color: #991b1b; }
+
+    .task-status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 9px;
+      font-size: 0.75rem;
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .task-status.done {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .task-status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .task-status.inprogress {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .small-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .danger-btn {
+      background: #ef4444;
+      color: white;
+    }
+
+    @media (max-width: 800px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      .mini-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loginPage" class="login-page">
+    <div class="login-box">
+      <div class="brand">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="office icon" width="70">
+        <h1>الجبهة الوطنية شرق السودان</h1>
+        <p>نظام إدارة المكتب الإداري</p>
+      </div>
+
+      <div class="form-group">
+        <label for="username">اسم المستخدم</label>
+        <input id="username" type="text" placeholder="أدخل اسم المستخدم" />
+      </div>
+
+      <div class="form-group">
+        <label for="password">كلمة المرور</label>
+        <input id="password" type="password" placeholder="أدخل كلمة المرور" />
+      </div>
+
+      <button class="login-btn" onclick="login()">تسجيل الدخول</button>
+    </div>
+  </div>
+
+  <div id="dashboard" class="dashboard hidden">
+    <div class="topbar">
+      <h2>لوحة التحكم | الجبهة الوطنية شرق السودان</h2>
+      <button class="logout-btn" onclick="logout()">تسجيل الخروج</button>
+    </div>
+
+    <div class="stats">
+      <div class="card stat-card">
+        <div>إجمالي السجلات</div>
+        <div id="recordsCount" class="stat-number">0</div>
+      </div>
+      <div class="card stat-card">
+        <div>غرف الاجتماعات</div>
+        <div id="roomsCount" class="stat-number">0</div>
+      </div>
+      <div class="card stat-card">
+        <div>المهام الحالية</div>
+        <div id="tasksCount" class="stat-number">0</div>
+      </div>
+      <div class="card stat-card">
+        <div>المهام المنجزة</div>
+        <div id="doneTasks" class="stat-number">0</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div>
+        <div class="section">
+          <div class="section-header">
+            <h3>إضافة سجل جديد</h3>
+          </div>
+          <div class="mini-form">
+            <input id="recordTitle" class="full" type="text" placeholder="عنوان السجل أو المستند" />
+            <input id="recordType" type="text" placeholder="نوع السجل" />
+            <input id="recordDate" type="date" />
+            <button class="primary-btn full" onclick="addRecord()">حفظ السجل</button>
+          </div>
+          <table class="table-list">
+            <thead>
+              <tr>
+                <th>العنوان</th>
+                <th>النوع</th>
+                <th>التاريخ</th>
+              </tr>
+            </thead>
+            <tbody id="recordsTable"></tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h3>إدارة المهام</h3>
+          </div>
+          <div class="mini-form">
+            <input id="taskTitle" class="full" type="text" placeholder="اسم المهمة" />
+            <select id="taskPriority">
+              <option value="low">منخفضة</option>
+              <option value="mid">متوسطة</option>
+              <option value="high">عالية</option>
+            </select>
+            <select id="taskStatus">
+              <option value="pending">معلقة</option>
+              <option value="inprogress">قيد التنفيذ</option>
+              <option value="done">منجزة</option>
+            </select>
+            <button class="primary-btn full" onclick="addTask()">إضافة المهمة</button>
+          </div>
+          <table class="table-list">
+            <thead>
+              <tr>
+                <th>المهمة</th>
+                <th>الأولوية</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="tasksTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="section">
+          <div class="section-header">
+            <h3>غرف الاجتماعات</h3>
+          </div>
+          <div class="room-list" id="roomsList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_USER = "admin";
+    const DEFAULT_PASS = "admin123";
+
+    const state = {
+      records: JSON.parse(localStorage.getItem("office_records") || "[]"),
+      tasks: JSON.parse(localStorage.getItem("office_tasks") || "[]"),
+      rooms: JSON.parse(localStorage.getItem("office_rooms") || JSON.stringify([
+        { id: 1, name: "غرفة الاجتماعات 1", status: "available" },
+        { id: 2, name: "غرفة الاجتماعات 2", status: "occupied" },
+        { id: 3, name: "غرفة الاجتماعات 3", status: "available" }
+      ]))
+    };
+
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (username === DEFAULT_USER && password === DEFAULT_PASS) {
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+        renderAll();
+      } else {
+        alert("اسم المستخدم أو كلمة المرور غير صحيحة");
+      }
+    }
+
+    function logout() {
+      document.getElementById("dashboard").classList.add("hidden");
+      document.getElementById("loginPage").classList.remove("hidden");
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    }
+
+    function saveState() {
+      localStorage.setItem("office_records", JSON.stringify(state.records));
+      localStorage.setItem("office_tasks", JSON.stringify(state.tasks));
+      localStorage.setItem("office_rooms", JSON.stringify(state.rooms));
+    }
+
+    function addRecord() {
+      const title = document.getElementById("recordTitle").value.trim();
+      const type = document.getElementById("recordType").value.trim();
+      const date = document.getElementById("recordDate").value;
+
+      if (!title || !type || !date) {
+        alert("يرجى تعبئة جميع بيانات السجل");
+        return;
+      }
+
+      state.records.unshift({ title, type, date });
+      saveState();
+      renderRecords();
+      renderStats();
+      document.getElementById("recordTitle").value = "";
+      document.getElementById("recordType").value = "";
+      document.getElementById("recordDate").value = "";
+    }
+
+    function addTask() {
+      const title = document.getElementById("taskTitle").value.trim();
+      const priority = document.getElementById("taskPriority").value;
+      const status = document.getElementById("taskStatus").value;
+      if (!title) {
+        alert("يرجى إدخال اسم المهمة");
+        return;
+      }
+
+      state.tasks.unshift({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), title, priority, status });
+      saveState();
+      renderTasks();
+      renderStats();
+      document.getElementById("taskTitle").value = "";
+      document.getElementById("taskPriority").value = "low";
+      document.getElementById("taskStatus").value = "pending";
+    }
+
+    function updateTaskStatus(id, newStatus) {
+      const task = state.tasks.find(t => t.id === id);
+      if (task) {
+        task.status = newStatus;
+        saveState();
+        renderTasks();
+        renderStats();
+      }
+    }
+
+    function deleteTask(id) {
+      state.tasks = state.tasks.filter(t => t.id !== id);
+      saveState();
+      renderTasks();
+      renderStats();
+    }
+
+    function renderRecords() {
+      const tbody = document.getElementById("recordsTable");
+      tbody.innerHTML = "";
+      state.records.forEach(record => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${record.title}</td>
+          <td>${record.type}</td>
+          <td>${record.date}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderTasks() {
+      const tbody = document.getElementById("tasksTable");
+      tbody.innerHTML = "";
+
+      state.tasks.forEach(task => {
+        const row = document.createElement("tr");
+        const priorityLabel = {
+          low: '<span class="badge low">منخفضة</span>',
+          mid: '<span class="badge mid">متوسطة</span>',
+          high: '<span class="badge high">عالية</span>'
+        };
+
+        const statusLabel = {
+          pending: '<span class="task-status pending">معلقة</span>',
+          inprogress: '<span class="task-status inprogress">قيد التنفيذ</span>',
+          done: '<span class="task-status done">منجزة</span>'
+        };
+
+        row.innerHTML = `
+          <td>${task.title}</td>
+          <td>${priorityLabel[task.priority]}</td>
+          <td>
+            ${statusLabel[task.status]}
+            <div class="action-row">
+              <button class="small-btn primary-btn" onclick="updateTaskStatus('${task.id}', 'done')">تم</button>
+              <button class="small-btn danger-btn" onclick="deleteTask('${task.id}')">حذف</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderRooms() {
+      const list = document.getElementById("roomsList");
+      list.innerHTML = "";
+      state.rooms.forEach(room => {
+        const card = document.createElement("div");
+        card.className = "room-card";
+        const statusClass = room.status === "available" ? "available" : "occupied";
+        const statusText = room.status === "available" ? "متاحة" : "مشغولة";
+
+        card.innerHTML = `
+          <h4>${room.name}</h4>
+          <span class="status ${statusClass}">${statusText}</span>
+          <div class="action-row">
+            <button class="small-btn primary-btn" onclick="toggleRoomStatus(${room.id})">
+              ${room.status === "available" ? "تحديد كمشغولة" : "تحديد كمتاحة"}
+            </button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function toggleRoomStatus(roomId) {
+      const room = state.rooms.find(r => r.id === roomId);
+      if (!room) return;
+      room.status = room.status === "available" ? "occupied" : "available";
+      saveState();
+      renderRooms();
+    }
+
+    function renderStats() {
+      document.getElementById("recordsCount").textContent = state.records.length;
+      document.getElementById("roomsCount").textContent = state.rooms.length;
+      document.getElementById("tasksCount").textContent = state.tasks.length;
+      document.getElementById("doneTasks").textContent = state.tasks.filter(t => t.status === "done").length;
+    }
+
+    function renderAll() {
+      renderRecords();
+      renderTasks();
+      renderRooms();
+      renderStats();
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>
